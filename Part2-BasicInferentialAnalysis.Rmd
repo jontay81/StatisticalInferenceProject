@@ -21,6 +21,10 @@ Now in the second portion of the project, we're going to analyze the ToothGrowth
 
 data(ToothGrowth)
 head(ToothGrowth)
+
+#Plot length vs dose and length vs supp
+boxplot(ToothGrowth$len ~ ToothGrowth$dose)
+plot(ToothGrowth$len ~ ToothGrowth$supp)
 ```
 
 ```{R}
@@ -28,6 +32,12 @@ head(ToothGrowth)
 #2. Provide a basic summary of the data.
 
 summary(ToothGrowth)
+
+mean(ToothGrowth$len[ToothGrowth$supp == "OJ"])
+sd(ToothGrowth$len[ToothGrowth$supp == "OJ"])
+
+mean(ToothGrowth$len[ToothGrowth$supp == "VC"])
+sd(ToothGrowth$len[ToothGrowth$supp == "VC"])
 
 ```
 
@@ -46,5 +56,14 @@ t.test(ToothGrowth$len[ToothGrowth$dose==1], ToothGrowth$len[ToothGrowth$dose==0
 
 
 ```{R}
+#4.State your conclusions and the assumptions needed for your conclusions.
+
+#Assumption of normality of the dependent variable
+qqnorm(ToothGrowth$len) #looks normal
+
+#Assumption of homogeneity of variance
+
+
+
 
 ```
