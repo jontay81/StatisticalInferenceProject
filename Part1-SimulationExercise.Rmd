@@ -1,0 +1,136 @@
+---
+title: "Part 1 - Simulation Exercise"
+author: "Jon Taylor"
+date: "September 20, 2016"
+output: pdf_document
+---
+
+#Instructions
+In this project you will investigate the exponential distribution in R and compare it with the Central Limit Theorem. The exponential distribution can be simulated in R with rexp(n, lambda) where lambda is the rate parameter. The mean of exponential distribution is 1/lambda and the standard deviation is also 1/lambda. Set lambda = 0.2 for all of the simulations. You will investigate the distribution of averages of 40 exponentials. Note that you will need to do a thousand simulations.
+
+Illustrate via simulation and associated explanatory text the properties of the distribution of the mean of 40 exponentials. You should
+
+1. Show the sample mean and compare it to the theoretical mean of the distribution.
+
+2. Show how variable the sample is (via variance) and compare it to the theoretical variance of the distribution.
+
+3.Show that the distribution is approximately normal.
+
+In point 3, focus on the difference between the distribution of a large collection of random exponentials and the distribution of a large collection of averages of 40 exponentials.
+
+As a motivating example, compare the distribution of 1000 random uniforms
+
+```{R}
+hist(runif(1000)) #uniform distribution
+```
+
+and the distribution of 1000 averages of 40 random uniforms
+
+```{R}
+mns = NULL
+for (i in 1 : 1000) mns = c(mns, mean(runif(40)))
+hist(mns)
+```
+
+This distribution looks far more Gaussian than the original uniform distribution!
+
+This exercise is asking you to use your knowledge of the theory given in class to relate the two distributions.
+
+Confused? Try re-watching video lecture 07 for a starter on how to complete this project.
+
+```{R}
+#Set lambda = 0.2 for all of the simulations
+lambda <- 0.2
+
+#You will investigate the distribution of averages of 40 exponentials. Note #that you will need to do a thousand simulations.
+n.exp <- 40
+n.sim <- 1000
+
+#The mean of exponential distribution is 1/lambda and the standard deviation #is also 1/lambda.
+
+mean.dist.exp <- 1/lambda
+sd.dist.exp <- 1/lambda
+
+```
+
+```{R}
+
+#The exponential distribution can be simulated in R with rexp(n, lambda) #where lambda is the rate parameter.
+
+dist.exp <- rexp(n.exp,lambda)
+
+#The sample mean is 
+mean(dist.exp) #5 expect 1/lambda
+
+#The sd is
+sd(dist.exp) #5 expected
+
+#and the distribution looks like
+
+hist(dist.exp)
+
+
+#its a skewed right histogram! Expected
+```
+
+```{R}
+#Now lets do it 1000 times and take the mean.
+mean.dist.exp = NULL
+for (i in 1 : 1000) mean.dist.exp = c(mean.dist.exp,
+                                      mean(rexp(n.exp,lambda)))
+
+hist(mean.dist.exp)
+
+mean(mean.dist.exp) #5 expected
+sd(mean.dist.exp) #5 expected
+
+```
+
+```{R}
+#1. Show the sample mean and compare it to the theoretical mean of the #distribution.
+
+#The mean is 
+mean(mean.dist.exp)
+
+#And the difference between it and the theoretical mean is
+mean(mean.dist.exp)- (1/lambda)
+```
+
+
+```{R}
+#2. Show how variable the sample is (via variance) and compare it to the theoretical variance of the distribution.
+
+#The variance is 
+var(mean.dist.exp)
+
+#The difference between the theoretical variance and sample variance is
+
+var(mean.dist.exp) - (sd.dist.exp^2/n.exp) 
+
+```
+
+```{R}
+#3.Show that the distribution is approximately normal.
+collection.dist.exp = NULL
+for (i in 1 : 1000) collection.dist.exp = c(collection.dist.exp,
+                                      rexp(n.exp,lambda))
+
+mean(collection.dist.exp)
+sd(collection.dist.exp)
+
+hist(collection.dist.exp)
+
+
+#By usin qqnorm we can test if the distribution is normal
+#We expect normal distributions to have a linear slope
+qqnorm(collection.dist.exp)
+qqnorm(mean.dist.exp)
+
+#Here we see that the mean of exp functions is normal and the collection of exp functions is not normal
+
+#This is because of the central limit theorem.
+```
+
+
+
+
